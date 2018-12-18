@@ -39,7 +39,7 @@ public class DbSeeder implements CommandLineRunner {
         System.out.println("###################################\n\n");*/
 
         // drop all places
-        this.placeRepository.deleteAll();
+       // this.placeRepository.deleteAll();
         //this.typeRepository.deleteAll();
         //typeRepository.saveAll(typesToAdd());
 
