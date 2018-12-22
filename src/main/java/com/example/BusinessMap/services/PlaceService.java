@@ -45,7 +45,7 @@ public class PlaceService {
         this.placeList = placeList;
     }
 
-    public String getPlacesInformation(double x, double y, int m) {
+    public String getPlacesInformation(double x, double y, double km) {
         JsonArray mainObject = new JsonArray(); // создаем главный объект
         List<String> category = Arrays.asList("Еда", "Развлечения", "Гостиницы", "Покупки", "Красота", "Здоровье");
 
@@ -57,7 +57,6 @@ public class PlaceService {
         double reit = 0;
         double price = 0;
         Point point = new Point(x, y);
-        double km = m / 1000;
 
         // например 59.932229, 30.330791
         Distance distance = new Distance(km, Metrics.KILOMETERS);
