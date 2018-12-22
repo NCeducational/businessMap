@@ -2,10 +2,9 @@ package com.example.BusinessMap.services;
 
 import com.example.BusinessMap.entity.Type;
 import com.example.BusinessMap.entity.Place;
-import com.example.BusinessMap.parser.Parser;
+
 import com.example.BusinessMap.repositories.PlaceRepository;
 import com.example.BusinessMap.repositories.TypeRepository;
-import com.example.BusinessMap.parser.StaticMap;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -39,21 +38,21 @@ public class DbSeeder implements CommandLineRunner {
         System.out.println("###################################\n\n");*/
 
         // drop all places
-        this.placeRepository.deleteAll();
+      //  this.placeRepository.deleteAll();
         //this.typeRepository.deleteAll();
         //typeRepository.saveAll(typesToAdd());
 
         Place i5 = new Place(
                 "Friends Time",
                 new Point(59.935939, 30.359860),
-                new ObjectId("5c097053ad2b3d17fc2d81eb"),
+                new ObjectId("5c175524f1e24f2418e3d4e0"),
                 5,
                 1000
         );
 
-        //  List<Place> placesList = new ArrayList<>();
-        //   placesList.add(i5);
-        //   placeRepository.saveAll(placesList);
+       //   List<Place> placesList = new ArrayList<>();
+       //    placesList.add(i5);
+       //    placeRepository.saveAll(placesList);
 
 //        System.out.println(Querys.getOnly(placeRepository, bisenessTypeRepository));
 
@@ -63,52 +62,10 @@ public class DbSeeder implements CommandLineRunner {
 
         //List<Type> types = typeRepository.findAll();
         //System.out.println("######PLACES LIST AFTER ADDING######");
-           System.out.println(placeService.getPlacesInformation(59.932229, 30.330791, 50));
+        //   System.out.println(placeService.getPlacesInformation(59.932229, 30.330791, 50));
         //System.out.println("###################################\n\n");
     }
 
-    private static List<Type> typesToAdd() {
-        List<Type> typeListToAdd = new ArrayList<>();
-        StaticMap.mapOfTypes.forEach((key, value) -> {
-            switch (key) {
-                case "Cafe":
-                case "Ресторан":
-                case "Бар":
-                case "Булочная": {
-                    typeListToAdd.add(new Type(key, "Еда"));
-                    break;
-                }
-                case "Аптека":
-                case "Фитнес-клуб":
-                case "Медицинский центр": {
-                    typeListToAdd.add(new Type(key, "Здоровье"));
-                    break;
-                }
-                case "Автомагазин":
-                case "Магазин сантехники":
-                case "Магазин электроники": {
-                    typeListToAdd.add(new Type(key, "Покупки"));
-                    break;
-                }
-                case "Салон красоты":
-                case "Парикмахерская": {
-                    typeListToAdd.add(new Type(key, "Красота"));
-                    break;
-                }
-                case "Парк аттракционов":
-                case "Зоопарк": {
-                    typeListToAdd.add(new Type(key, "Развлечения"));
-                    break;
-                }
-                case "Хостел":
-                case "Гостиница": {
-                    typeListToAdd.add(new Type(key, "Гостиницы"));
-                    break;
-                }
-                default:
-            }
-        });
-        return typeListToAdd;
-    }
+
 
 }

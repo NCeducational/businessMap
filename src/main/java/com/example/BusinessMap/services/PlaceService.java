@@ -45,7 +45,7 @@ public class PlaceService {
         this.placeList = placeList;
     }
 
-    public String getPlacesInformation(double x, double y, int km) {
+    public String getPlacesInformation(double x, double y, int m) {
         JsonArray mainObject = new JsonArray(); // создаем главный объект
         List<String> category = Arrays.asList("Еда", "Развлечения", "Гостиницы", "Покупки", "Красота", "Здоровье");
 
@@ -57,6 +57,7 @@ public class PlaceService {
         double reit = 0;
         double price = 0;
         Point point = new Point(x, y);
+        double km = m / 1000;
 
         // например 59.932229, 30.330791
         Distance distance = new Distance(km, Metrics.KILOMETERS);
@@ -71,10 +72,13 @@ public class PlaceService {
             rootObject.addProperty("name", category.get(f));
 
 
-            for (Type type: types) {
+            for (Type type : types) {
                 JsonObject childObject = new JsonObject(); // создаем объект Type
                 String bisenessType = type.getId();
-                for (Place place: places) {
+                for (Place place : places) {
+                    if (place.getType() == null) {
+                        continue;
+                    }
                     String placeType = place.getType().toString();
                     if (placeType.equals(bisenessType)) {
                         sumPlace = sumPlace + 1;
@@ -86,10 +90,10 @@ public class PlaceService {
                     childObject.addProperty("col", sumPlace);
                     if (reit / sumPlace > 0) {
                         if (price / sumPlace > 0) {
-                            childObject.addProperty("reit", reit / sumPlace);
-                            childObject.addProperty("price", price / sumPlace);
+                            childObject.addProperty("reit", Math.round(reit / sumPlace * 10) / 10D);
+                            childObject.addProperty("price", Math.round(price / sumPlace));
                         } else {
-                            childObject.addProperty("reit", reit / sumPlace);
+                            childObject.addProperty("reit", Math.round(reit / sumPlace * 10) / 10D);
                             childObject.addProperty("price", 0);
                         }
                     } else {

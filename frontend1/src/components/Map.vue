@@ -109,7 +109,7 @@
 
       find : function () {
         axios
-          .get(`http://localhost:8080/places/59.932229/30.330791/50`)
+          .get(`http://localhost:8080/places/59.932229/30.330791/1000`)
           .then(response2 => (this.response = response2.data));
       },
       parseCategory : function (category) {
