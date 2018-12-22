@@ -6,32 +6,43 @@
           style="top: 10.64%;
           bottom: 86.97%;">
      </div>
-
-     <div id="map">
-       <yandex-map
+     <yandex-map
+       id="yandexMap"
        :coords="mapCoords"
-       zoom="10"
-       style="width: 800px; height: 600px;"
+       zoom="12"
        :cluster-options="{
-    1: {clusterDisableClickZoom: true}
+    1: {}
   }"
+       :behaviors="['default']"
        :controls="['fullscreenControl', 'geolocationControl', 'searchControl', 'zoomControl']"
        :placemarks="placemarks"
+       map-type="map"
        @map-was-initialized="onMapInit"
      >
-
        <ymap-marker
          marker-id="3"
+         marker-type="placemark"
+         :coords="circleCoords"
+         hint-content="центр области"
+         :balloon="{header: 'header', body: 'body', footer: 'footer'}"
+         :icon="{color: 'gray', glyph: 'DotIcon'}"
+         cluster-name="1"
+       ></ymap-marker>
+       <ymap-marker
+         marker-id="1"
          marker-type="circle"
          :coords="circleCoords"
          :circle-radius="+radToMetres(radius)"
-         hint-content="Hint content 1"
-         :marker-fill="{color: '#ffe222', opacity: 0.4}"
-         :marker-stroke="{color: '#000000', width: 3}"
-         :balloon="{header: 'header', body: 'body', footer: 'footer'}"
+         hint-content="выбранная область"
+         :marker-fill="{color: '#000000', opacity: 0.4}"
+         :marker-stroke="{color: '#ffe222', width: 3}"
+         :balloon="{header: 'Санкт-Петербург', body: 'выбранная область для анализа', footer: ''}"
        ></ymap-marker>
 
      </yandex-map>
+     <div id="line" style="
+     top: 97.61%;
+     bottom: 0%;">
      </div>
 
      <h1 class="headline" id="hl2">размер области поиска {{radius}}</h1>
@@ -65,21 +76,23 @@
 </template>
 
 <script>
+  import { yandexMap, ymapMarker } from 'vue-yandex-maps'
   import Card from "./Card"
   import axios from 'axios';
-  const { yandexMap, ymapMarker } = require('vue-yandex-maps');
 
   export default {
     name: 'map-area',
-    components: {Card, yandexMap, ymapMarker},
+    components: {Card, yandexMap},
     data()
     {
       return {
-        response: null,
         placemarks: [],
         mapCoords: [59.9386300, 30.3141300],
-        circleCoords: [0, 0],
-        circleRadius: 1600
+        circleCoords: [59.9386300, 30.3141300],
+        address: '',
+        value: 25,
+        radius:'1',
+        response: null
       }
     },
     methods:{
@@ -89,11 +102,6 @@
         this.mapCoords = coords
         this.placemarks.push({asd:1})
         this.placemarks.pop()
-
-        // var mark = this.placemarks.pop()
-        // mark.coords = coords;
-        // this.placemarks.push(mark)
-
       },
 
       onMapInit : function(map) {
@@ -102,15 +110,16 @@
           self.onMapClick(e.get('coords'))
         })
       },
-
       select: function (r) {
         this.radius = r
       },
-
+      getRequestText: function ([a, b]) {
+        return String(a) + "/" + String(b) + "/" + String(this.radius)
+      },
       find : function () {
-        axios
-          .get(`http://localhost:8080/places/59.932229/30.330791/1000`)
-          .then(response2 => (this.response = response2.data));
+          axios
+            .get("http://localhost:8080/places/" + this.getRequestText(this.circleCoords))
+            .then(response2 => (this.response = response2.data));
       },
       parseCategory : function (category) {
         if (this.response!= null){
@@ -128,6 +137,7 @@
 
 <style scoped>
   #map-area{
+
     position: absolute;
     height: 752px;
     width: auto;
@@ -135,10 +145,6 @@
     right: 0px;
     top: 777px;
     background: #E5E5E5;
-  }
-  #map{
-    position: absolute;
-    top: 100px;
   }
 
   .headline{
@@ -287,9 +293,8 @@
   }
 
   #cards{
-    top: -15px;
     background: #E5E5E5;
     position: absolute;
-    top: 755px;
+    top: 750px;
   }
 </style>
