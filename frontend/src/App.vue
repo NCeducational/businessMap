@@ -1,12 +1,14 @@
 <template>
-    <div id="app">
+<div id="app">
       <router-view/>
-    </div>
+</div>
 </template>
 
 <script>
-  export default {
-    name: 'app',
+    import router from './router'
+    export default {
+        name: 'app',
+        router
   }
 </script>
 <!-- стили компонента -->
