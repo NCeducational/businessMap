@@ -6,8 +6,6 @@ import com.example.BusinessMap.repositories.PlaceRepository;
 import com.example.BusinessMap.repositories.TypeRepository;
 import com.google.gson.*;
 import org.bson.types.ObjectId;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -155,7 +153,7 @@ public class Parser {
         this.placeRepository.saveAll(placeListToAdd);
     }
 
-    private double getRating(@NotNull Elements organisations, int k) {
+    private double getRating( Elements organisations, int k) {
         Elements stars;
         final Random random = new Random();
         stars = organisations.get(k).select(".rating");
@@ -177,7 +175,7 @@ public class Parser {
         return rating;
     }
 
-    private Point getPoint(Point point, Elements organisations, int k, @NotNull Element address) {
+    private Point getPoint(Point point, Elements organisations, int k, Element address) {
         Document json;
 
         //сортируем адреса от мусора
@@ -201,8 +199,7 @@ public class Parser {
         return point;
     }
 
-    @NotNull
-    @Contract("_ -> new")
+
     private static Point getPointFromJson(String json) {
         String[] coords;
         //парсим json чтобы добраться до Point
@@ -220,8 +217,7 @@ public class Parser {
         return new Point(Double.parseDouble(coords[1]), Double.parseDouble(coords[0]));
     }
 
-    @Contract(pure = true)
-    private static Integer averageCheckBound(@NotNull String typeName) {
+    private static Integer averageCheckBound( String typeName) {
         int checkBound = 0;
         switch (typeName) {
             case "Кафе": {
