@@ -42,10 +42,10 @@ dependencies {
 	implementation 'com.google.code.gson:gson:2.8.5'
 }
 
-war {
+/* war {
 	baseName = 'BusinessMap'
 	enabled = true
 	from 'src' // adds a file-set to the root of the archive
 	webInf { from 'src/main/resources/static' } // adds a file-set to the WEB-INF dir.
 	webXml = file('src/main/')
-}
+} */
